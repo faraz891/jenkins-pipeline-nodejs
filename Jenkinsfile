@@ -1,7 +1,7 @@
 pipeline{  
   environment {
-    registry = "<Your-registry-username>/node-helloworld"
-    registryCredential = '<dockerhub_credentials_id_in_jenkins>'
+    registry = "octalcomputer/jenkins-pipeline"
+    registryCredential = 'dockerhub'
     dockerImage = ''
   }
   agent any
