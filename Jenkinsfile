@@ -1,18 +1,12 @@
 pipeline{  
-  agent any {
-        docker {
-            image 'node:lts-buster-slim'
-            args '-p 3000:3000'
-        }
-    }
-  
+   
   environment {
     registry = "octalcomputer/jenkins-pipeline"
     registryCredential = 'dockerhub'
     dockerImage = ''
-    CI = 'true'
+  
   }
-         
+  agent any       
   stages {
      stage('Build'){
          steps{
