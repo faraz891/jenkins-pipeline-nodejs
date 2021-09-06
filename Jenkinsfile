@@ -9,7 +9,7 @@ pipeline{
         stage('Build'){
            steps{
               script{
-                sh 'nvm install'
+                sh 'npm install'
               } 
            }   
         }
