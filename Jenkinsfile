@@ -1,21 +1,22 @@
 pipeline{  
-  environment {
-    registry = "octalcomputer/jenkins-pipeline"
-    registryCredential = 'dockerhub'
-    dockerImage = ''
-    CI = 'true'
-  }
   agent {
         docker {
             image 'node:lts-buster-slim'
             args '-p 3000:3000'
         }
     }
-       
-    stages {
-        stage('Build'){
-           steps{
-              script{
+  
+  environment {
+    registry = "octalcomputer/jenkins-pipeline"
+    registryCredential = 'dockerhub'
+    dockerImage = ''
+    CI = 'true'
+  }
+         
+  stages {
+     stage('Build'){
+         steps{
+            script{
                 sh 'npm install'
               } 
            }   
@@ -27,9 +28,9 @@ pipeline{
                  }
              }
           }
-          stage('Push Image') {
-              steps{
-                  script {
+         stage('Push Image') {
+            steps{
+               script {
                        docker.withRegistry( '', registryCredential){                            
                        dockerImage.push()
                       }
@@ -37,7 +38,7 @@ pipeline{
                 } 
            }
            stage('Apply Kubernetes Files') {
-      steps {
+   steps {
           withKubeConfig([credentialsId: 'kubeconfig']) {
           sh 'cat nodejs-deployment.yaml | sed "s/{{BUILD_NUMBER}}/$BUILD_NUMBER/g" | kubectl apply -f -'
         }
